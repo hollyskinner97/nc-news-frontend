@@ -1,42 +1,147 @@
 #root {
   max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+footer {
+  margin-top: 40px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header {
+  background-color: #fbd3b7;
+  display: grid;
+  grid-template-columns: 15% 70% 15%;
+  align-items: center;
+  padding: 5px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  width: 100%;
+  border: solid #f3631e;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.menu-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
-.card {
-  padding: 2em;
+.menu-btn {
+  max-height: 3rem;
+  width: 70%;
 }
 
-.read-the-docs {
-  color: #888;
+.navbar {
+  display: grid;
+  position: absolute;
+  top: 100%;
+  width: auto;
+  grid-template-columns: 1fr;
+}
+
+.navbar button {
+  width: 100%;
+}
+
+/* HomePage component */
+.article-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+  grid-auto-rows: 1fr;
+}
+
+.article-card {
+  background-color: #fbd3b7;
+  border: solid #f76f6c;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  line-height: 1.2;
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.article-card button {
+  width: 50%;
+  align-self: center;
+  padding: 4px;
+}
+
+.single-article-page .article-card {
+  display: block;
+  width: 100%;
+  margin: 20px auto;
+}
+
+.article-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* CommentsList component */
+.comment-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  background-color: #fbd3b7;
+  border: solid #f76f6c;
+  border-radius: 8px;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 10px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Each individual comment card */
+.comment-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border: solid #f76f6c;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
+  height: auto;
+  line-height: 1.2;
+  gap: 20px;
+}
+
+/* Content area (author, body, votes, date) */
+.comment-card .content {
+  flex: 1;
+  padding-right: 20px;
+}
+
+/* Buttons section (Like, Delete) */
+.comment-card .buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.comment-card h3 {
+  margin: 0;
+}
+
+.comment-card p {
+  margin: 5px 0;
+}
+
+.comment-card button {
+  padding: 8px 12px;
+  cursor: pointer;
 }
