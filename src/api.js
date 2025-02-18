@@ -32,3 +32,17 @@ export const getCommentsByArticleId = (article_id) => {
     return res.data.comments;
   });
 };
+
+export const postComment = (article_id, newComment) => {
+  console.log(
+    "Posting comment with article_id:",
+    article_id,
+    "and comment:",
+    newComment
+  );
+  return api
+    .post(`/articles/${article_id}/comments`, newComment)
+    .then((res) => {
+      return res.data.comment;
+    });
+};
