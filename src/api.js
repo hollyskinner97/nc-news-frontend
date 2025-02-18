@@ -16,6 +16,17 @@ export const getArticlesById = (article_id) => {
   });
 };
 
+export const patchVotesOnArticle = (article_id, voteData) => {
+  return api
+    .patch(`/articles/${article_id}`, voteData)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
 export const getCommentsByArticleId = (article_id) => {
   return api.get(`/articles/${article_id}/comments`).then((res) => {
     return res.data.comments;

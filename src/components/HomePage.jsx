@@ -21,12 +21,26 @@ function HomePage() {
   return (
     <>
       {/* Need to add filters/sort here */}
+      <div className="articles-btn-bar">
+        <button>Sort By</button>
+        <button>Order (asc/desc)</button>
+        <button>Filter by topic</button>
+        <button
+          className="new-article-btn"
+          onClick={() => {
+            navigate("/articles/new");
+          }}
+        >
+          New article!
+        </button>
+      </div>
       <div className="article-cards">
         {articles.map((article) => {
           const formattedDate = dayjs(article.created_at).format("MMM D, YYYY");
 
           return (
             <div className="article-card">
+              <img src={article.article_img_url} alt={article.title} />
               <h2>
                 <Link
                   to={`/articles/${article.article_id}`}
