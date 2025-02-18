@@ -64,6 +64,9 @@ button {
 }
 button:hover {
   border-color: #fbd3b7;
+  &:hover {
+    transform: translateY(-4px);
+  }
 }
 button:focus,
 button:focus-visible {
