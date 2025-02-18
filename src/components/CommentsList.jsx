@@ -2,25 +2,57 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "../App.css";
 import dayjs from "dayjs";
-import { getCommentsByArticleId } from "../api";
+import { deleteComment, getCommentsByArticleId } from "../api";
 import NewCommentForm from "./NewCommentForm";
 import { CommentsContext } from "../contexts/Comments";
+import { UserAccount } from "../contexts/UserAccount";
 
 function CommentsList() {
+  const { username } = useContext(UserAccount);
   const { comments, setComments } = useContext(CommentsContext);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { article_id } = useParams();
 
   useEffect(() => {
-    getCommentsByArticleId(article_id).then((comments) => {
-      setComments(comments);
-    });
+    getCommentsByArticleId(article_id)
+      .then((comments) => {
+        setComments(comments);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching comments:", err);
+        setError("Failed to load comments");
+        setLoading(false);
+      });
   }, []);
 
-  function handleDelete() {}
+  function handleDelete(comment_id) {
+    const commentToDelete = comments.find(
+      (comment) => comment.comment_id === comment_id
+    );
 
-  if (!comments) {
-    return <p>Loading...</p>;
+    setComments((prevComments) =>
+      prevComments.filter((comment) => comment.comment_id !== comment_id)
+    );
+
+    deleteComment(comment_id)
+      .then(() => {
+        alert("Comment successfully deleted");
+      })
+      .catch((err) => {
+        console.log("Error deleting comment: ", err);
+        // Restore the comment if delete fails
+        setComments((prevComments) => [...prevComments, commentToDelete]);
+        alert("There was an issue deleting the comment.");
+      });
+  }
+
+  if (loading) {
+    return <p>Loading comments...</p>;
+  }
+  if (error) {
+    return <p>{error}</p>;
   }
 
   return (
@@ -41,7 +73,11 @@ function CommentsList() {
             </div>
             <div className="buttons">
               <button>Like</button>
-              <button onClick={handleDelete}>Delete</button>
+              {comment.author === username && (
+                <button onClick={() => handleDelete(comment.comment_id)}>
+                  Delete
+                </button>
+              )}
             </div>
           </div>
         );
