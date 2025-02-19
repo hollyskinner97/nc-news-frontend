@@ -38,6 +38,10 @@ h1 {
   color: #f5353b;
 }
 
+h1 a:hover {
+  color: #f76f6c;
+}
+
 h2 {
   color: #f5353b;
   font-size: 1.5em;
@@ -45,8 +49,12 @@ h2 {
   text-decoration: inherit;
 }
 
-h2:hover {
+h2 a:hover {
   color: #f76f6c;
+}
+
+h3 {
+  margin: 10px;
 }
 
 button {

@@ -44,8 +44,7 @@ function NewCommentForm({ setComments }) {
         setSuccessful(true);
         setError(false);
       })
-      .catch((err) => {
-        console.error("Error posting comment: ", err);
+      .catch(() => {
         setError(true);
       })
       .finally(() => {
@@ -92,7 +91,9 @@ function NewCommentForm({ setComments }) {
             </button>
           </div>
           {successful && (
-            <p className="success-message">Comment posted successfully!</p>
+            <strong>
+              <p className="success-message">Comment posted successfully!</p>
+            </strong>
           )}
         </form>
       </div>

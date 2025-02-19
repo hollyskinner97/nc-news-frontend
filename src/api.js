@@ -4,8 +4,14 @@ const api = axios.create({
   baseURL: "https://hs-news.onrender.com/api", // Maybe hide this later?
 });
 
-export const getArticles = ({ limit = 10, p = 1 } = {}) => {
-  return api.get("/articles", { params: { limit, p } }).then((res) => {
+export const getArticles = ({ limit = 10, p = 1, topic } = {}) => {
+  const params = { limit, p };
+
+  if (topic) {
+    params.topic = topic;
+  }
+
+  return api.get("/articles", { params }).then((res) => {
     return res.data;
   });
 };
@@ -42,12 +48,6 @@ export const getCommentsByArticleId = (
 };
 
 export const postComment = (article_id, newComment) => {
-  console.log(
-    "Posting comment with article_id:",
-    article_id,
-    "and comment:",
-    newComment
-  );
   return api
     .post(`/articles/${article_id}/comments`, newComment)
     .then((res) => {
@@ -58,5 +58,17 @@ export const postComment = (article_id, newComment) => {
 export const deleteComment = (comment_id) => {
   return api.delete(`/comments/${comment_id}`).catch((error) => {
     throw error;
+  });
+};
+
+export const getTopics = () => {
+  return api.get("/topics").then((res) => {
+    return res.data.topics;
+  });
+};
+
+export const postTopic = (newTopic) => {
+  return api.post(`/topics`, newTopic).then((res) => {
+    return res.data.topic;
   });
 };

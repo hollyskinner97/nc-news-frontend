@@ -2,6 +2,7 @@ import NavBar from "./NavBar";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserAccount } from "../contexts/UserAccount";
 import "../App.css";
+import { Link } from "react-router-dom";
 
 function Header() {
   const { username } = useContext(UserAccount);
@@ -28,7 +29,13 @@ function Header() {
   return (
     <div className="header">
       <p>Logged in as {username}</p>
-      <h1>HS News</h1>
+
+      <h1>
+        <Link to={"/"} className="home-link">
+          HS News
+        </Link>
+      </h1>
+
       <div className="menu-container" ref={menuRef}>
         <button
           className="menu-btn"
