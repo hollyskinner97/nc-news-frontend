@@ -12,15 +12,16 @@ function CommentsList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [deleting, setDeleting] = useState(false);
+  const [page, setPage] = useState(1);
   const { article_id } = useParams();
 
   useEffect(() => {
     setLoading(true);
     setError(null);
 
-    getCommentsByArticleId(article_id)
+    getCommentsByArticleId(article_id, { p: page })
       .then((comments) => {
-        setComments(comments);
+        setComments((prev) => [...prev, ...comments]);
       })
       .catch((err) => {
         console.error("Error fetching comments:", err);
@@ -29,7 +30,7 @@ function CommentsList() {
       .finally(() => {
         setLoading(false);
       });
-  }, [article_id]);
+  }, [article_id, page]);
 
   function handleDelete(comment_id) {
     if (deleting) return;
@@ -71,13 +72,15 @@ function CommentsList() {
         return (
           <div className="comment-card" key={comment.comment_id}>
             <div className="content">
-              <h3>{comment.author}</h3>
-              <p>{comment.body}</p>
-              <p>Votes: {comment.votes}</p>
               <p>{formattedDate}</p>
+              <p>
+                <strong>{comment.author}</strong>: {comment.body}
+              </p>
+              <p>Votes: {comment.votes}</p>
             </div>
             <div className="buttons">
-              <button>Like</button>
+              <button>Up vote!</button>
+              <button>Down vote!</button>
               {comment.author === username && (
                 <button onClick={() => handleDelete(comment.comment_id)}>
                   Delete
@@ -87,6 +90,13 @@ function CommentsList() {
           </div>
         );
       })}
+      <button
+        className="load-more-btn"
+        onClick={() => setPage((prev) => prev + 1)}
+        disabled={loading}
+      >
+        Load more comments...
+      </button>
     </div>
   );
 }

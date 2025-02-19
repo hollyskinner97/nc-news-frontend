@@ -27,10 +27,18 @@ export const patchVotesOnArticle = (article_id, voteData) => {
     });
 };
 
-export const getCommentsByArticleId = (article_id) => {
-  return api.get(`/articles/${article_id}/comments`).then((res) => {
-    return res.data.comments;
-  });
+export const getCommentsByArticleId = (
+  article_id,
+  { limit = 3, p = 1 } = {}
+) => {
+  return api
+    .get(`/articles/${article_id}/comments`, { params: { limit, p } })
+    .then((res) => {
+      return res.data.comments;
+    })
+    .catch((error) => {
+      throw error;
+    });
 };
 
 export const postComment = (article_id, newComment) => {
