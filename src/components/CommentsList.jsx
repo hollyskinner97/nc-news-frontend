@@ -2,31 +2,68 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "../App.css";
 import dayjs from "dayjs";
-import { getCommentsByArticleId } from "../api";
+import { deleteComment, getCommentsByArticleId } from "../api";
 import NewCommentForm from "./NewCommentForm";
-import { CommentsContext } from "../contexts/Comments";
+import { UserAccount } from "../contexts/UserAccount";
 
 function CommentsList() {
-  const { comments, setComments } = useContext(CommentsContext);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { username } = useContext(UserAccount);
+  const [comments, setComments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [deleting, setDeleting] = useState(false);
   const { article_id } = useParams();
 
   useEffect(() => {
-    getCommentsByArticleId(article_id).then((comments) => {
-      setComments(comments);
-    });
-  }, []);
+    setLoading(true);
+    setError(null);
 
-  function handleDelete() {}
+    getCommentsByArticleId(article_id)
+      .then((comments) => {
+        setComments(comments);
+      })
+      .catch((err) => {
+        console.error("Error fetching comments:", err);
+        setError("Failed to load comments");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [article_id]);
 
-  if (!comments) {
-    return <p>Loading...</p>;
+  function handleDelete(comment_id) {
+    if (deleting) return;
+    setDeleting(true);
+    setError(null);
+
+    const commentToDelete = comments.find(
+      (comment) => comment.comment_id === comment_id
+    );
+
+    setComments((prevComments) =>
+      prevComments.filter((comment) => comment.comment_id !== comment_id)
+    );
+
+    deleteComment(comment_id)
+      .then(() => {
+        alert("Comment successfully deleted");
+      })
+      .catch((err) => {
+        setError("Failed to delete comment. Please try again.");
+        // Restore the comment if delete fails
+        setComments((prevComments) => [...prevComments, commentToDelete]);
+      });
+  }
+
+  if (loading) {
+    return <p>Loading comments...</p>;
   }
 
   return (
     <div className="comment-section">
       <h2>Comments...</h2>
-      <NewCommentForm />
+      <NewCommentForm setComments={setComments} />
+      {error && <p className="err-message">{error}</p>}
 
       {comments.map((comment) => {
         const formattedDate = dayjs(comment.created_at).format("MMM D, YYYY");
@@ -41,7 +78,11 @@ function CommentsList() {
             </div>
             <div className="buttons">
               <button>Like</button>
-              <button onClick={handleDelete}>Delete</button>
+              {comment.author === username && (
+                <button onClick={() => handleDelete(comment.comment_id)}>
+                  Delete
+                </button>
+              )}
             </div>
           </div>
         );

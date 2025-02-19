@@ -6,21 +6,27 @@ import "../App.css";
 import CommentsList from "./CommentsList";
 
 function ArticlePage() {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [article, setArticle] = useState({});
   const [votes, setVotes] = useState(0);
   const [userVote, setUserVote] = useState(0); // 0 = no vote
   const { article_id } = useParams();
 
   useEffect(() => {
-    getArticlesById(article_id).then((article) => {
-      setArticle(article);
-      setVotes(article.votes);
-    });
-  }, [article_id]);
+    setLoading(true);
 
-  if (!article) {
-    return <p>Loading...</p>;
-  }
+    getArticlesById(article_id)
+      .then((article) => {
+        setArticle(article);
+        setVotes(article.votes);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError("Failed to load article");
+        setLoading(false);
+      });
+  }, [article_id]);
 
   function handleVote(inc) {
     const newVote = userVote === inc ? 0 : inc;
@@ -39,6 +45,13 @@ function ArticlePage() {
           "Something went wrong while updating your vote. Please try again."
         );
       });
+  }
+
+  if (loading) {
+    return <p>Loading article...</p>;
+  }
+  if (error) {
+    return <p>{error}</p>;
   }
 
   const formattedDate = dayjs(article.created_at).format("MMM D, YYYY");

@@ -176,7 +176,7 @@ footer {
   margin-bottom: 15px;
 }
 
-.empty-comment-err {
+.err-message {
   color: red;
   font-weight: bold;
 }

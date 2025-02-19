@@ -5,17 +5,30 @@ import "../App.css";
 import dayjs from "dayjs";
 
 function HomePage() {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [articles, setArticles] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    getArticles().then((articles) => {
-      setArticles(articles);
-    });
+    setLoading(true);
+
+    getArticles()
+      .then((articles) => {
+        setArticles(articles);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError("Failed to load articles");
+        setLoading(false);
+      });
   }, []);
 
-  if (!articles) {
-    return <p>Loading...</p>;
+  if (loading) {
+    return <p>Loading articles...</p>;
+  }
+  if (error) {
+    return <p>{error}</p>;
   }
 
   return (
@@ -39,12 +52,11 @@ function HomePage() {
           const formattedDate = dayjs(article.created_at).format("MMM D, YYYY");
 
           return (
-            <div className="article-card">
+            <div className="article-card" key={article.article_id}>
               <img src={article.article_img_url} alt={article.title} />
               <h2>
                 <Link
                   to={`/articles/${article.article_id}`}
-                  key={article.article_id}
                   className="article-link"
                 >
                   {article.title}
