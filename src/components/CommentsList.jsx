@@ -4,30 +4,38 @@ import "../App.css";
 import dayjs from "dayjs";
 import { deleteComment, getCommentsByArticleId } from "../api";
 import NewCommentForm from "./NewCommentForm";
-import { CommentsContext } from "../contexts/Comments";
 import { UserAccount } from "../contexts/UserAccount";
 
 function CommentsList() {
   const { username } = useContext(UserAccount);
-  const { comments, setComments } = useContext(CommentsContext);
+  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [deleting, setDeleting] = useState(false);
   const { article_id } = useParams();
 
   useEffect(() => {
+    setLoading(true);
+    setError(null);
+
     getCommentsByArticleId(article_id)
       .then((comments) => {
         setComments(comments);
-        setLoading(false);
       })
       .catch((err) => {
         console.error("Error fetching comments:", err);
         setError("Failed to load comments");
+      })
+      .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [article_id]);
 
   function handleDelete(comment_id) {
+    if (deleting) return;
+    setDeleting(true);
+    setError(null);
+
     const commentToDelete = comments.find(
       (comment) => comment.comment_id === comment_id
     );
@@ -41,24 +49,21 @@ function CommentsList() {
         alert("Comment successfully deleted");
       })
       .catch((err) => {
-        console.log("Error deleting comment: ", err);
+        setError("Failed to delete comment. Please try again.");
         // Restore the comment if delete fails
         setComments((prevComments) => [...prevComments, commentToDelete]);
-        alert("There was an issue deleting the comment.");
       });
   }
 
   if (loading) {
     return <p>Loading comments...</p>;
   }
-  if (error) {
-    return <p>{error}</p>;
-  }
 
   return (
     <div className="comment-section">
       <h2>Comments...</h2>
-      <NewCommentForm />
+      <NewCommentForm setComments={setComments} />
+      {error && <p className="err-message">{error}</p>}
 
       {comments.map((comment) => {
         const formattedDate = dayjs(comment.created_at).format("MMM D, YYYY");

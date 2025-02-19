@@ -3,12 +3,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import "../App.css";
 import { postComment } from "../api";
 import { UserAccount } from "../contexts/UserAccount";
-import { CommentsContext } from "../contexts/Comments";
 
-function NewCommentForm() {
+function NewCommentForm({ setComments }) {
   const { username } = useContext(UserAccount);
-  const { setComments } = useContext(CommentsContext);
   const { article_id } = useParams();
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [successful, setSuccessful] = useState(false);
   const [formInfo, setFormInfo] = useState({
@@ -17,29 +16,25 @@ function NewCommentForm() {
   });
 
   function handleChange(e) {
-    const { value } = e.target;
-    console.log(e.target);
-
     setSuccessful(false);
     setFormInfo((curr) => ({
       ...curr,
-      body: value,
+      body: e.target.value,
     }));
     setError(false);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(formInfo);
 
     if (formInfo.body.trim() === "") {
       setError(true);
       return;
     }
 
+    setLoading(true);
     postComment(article_id, formInfo)
       .then((newComment) => {
-        console.log("Comment posted: ", newComment);
         setComments((prevComments) => [...prevComments, newComment]);
         // Reset form
         setFormInfo({
@@ -47,8 +42,15 @@ function NewCommentForm() {
           body: "",
         });
         setSuccessful(true);
+        setError(false);
       })
-      .catch((err) => console.log("Error posting comment: ", err));
+      .catch((err) => {
+        console.error("Error posting comment: ", err);
+        setError(true);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   function handleDiscard(e) {
@@ -58,6 +60,10 @@ function NewCommentForm() {
       body: "",
     });
     setError(false);
+  }
+
+  if (loading) {
+    return <p>Loading new comment form...</p>;
   }
 
   return (
@@ -75,9 +81,7 @@ function NewCommentForm() {
             onChange={handleChange}
             required
           />
-          {error && (
-            <p className="empty-comment-err">Please enter a valid comment</p>
-          )}
+          {error && <p className="err-message">Please enter a valid comment</p>}
 
           <div className="comment-form-btns">
             <button className="comment-form-btn" onClick={handleSubmit}>

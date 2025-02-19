@@ -1,17 +1,35 @@
 import NavBar from "./NavBar";
-import { useContext, useState } from "react";
-import "../App.css";
+import { useContext, useEffect, useRef, useState } from "react";
 import { UserAccount } from "../contexts/UserAccount";
+import "../App.css";
 
 function Header() {
   const { username } = useContext(UserAccount);
   const [open, setOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpen(false);
+      }
+    }
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
 
   return (
     <div className="header">
       <p>Logged in as {username}</p>
       <h1>HS News</h1>
-      <div className="menu-container">
+      <div className="menu-container" ref={menuRef}>
         <button
           className="menu-btn"
           onClick={() => {
@@ -20,7 +38,7 @@ function Header() {
         >
           Menu
         </button>
-        {open ? <NavBar /> : null}
+        {open && <NavBar setOpen={open} />}
       </div>
     </div>
   );
