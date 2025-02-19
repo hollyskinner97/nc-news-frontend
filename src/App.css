@@ -84,6 +84,20 @@ footer {
   margin-left: auto;
 }
 
+.pagination-btns {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  align-items: center;
+}
+
+.pagination-btns p {
+  font-weight: bold;
+  color: white;
+}
+
 .article-card {
   background-color: #fbd3b7;
   border: solid #f76f6c;
