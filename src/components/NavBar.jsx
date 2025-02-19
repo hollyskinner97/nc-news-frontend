@@ -4,7 +4,7 @@ import "../App.css";
 import { UserAccount } from "../contexts/UserAccount.jsx";
 
 function NavBar({ setOpen }) {
-  const { setUsername } = useContext(UserAccount);
+  const { username } = useContext(UserAccount);
 
   return (
     <nav className="navbar">
@@ -17,7 +17,7 @@ function NavBar({ setOpen }) {
       <Link to="/users" onClick={() => setOpen(false)}>
         <button>All Users</button>
       </Link>
-      <Link to="/users/:username" onClick={() => setOpen(false)}>
+      <Link to={`/users/${username}`} onClick={() => setOpen(false)}>
         <button>Your Account</button>
       </Link>
     </nav>
