@@ -167,6 +167,20 @@ footer {
   gap: 5px;
 }
 
+.dropdown {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  font-family: inherit;
+  border-radius: 8px;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.dropdown:hover {
+  border-color: #f76f6c;
+}
+
 .new-article-btn {
   margin-left: auto;
 }

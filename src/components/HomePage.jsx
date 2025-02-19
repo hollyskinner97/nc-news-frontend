@@ -1,24 +1,32 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getArticles } from "../api";
+import { getArticles, getTopics } from "../api";
 import "../App.css";
 import dayjs from "dayjs";
+import ArticlesHeader from "./ArticlesHeader";
 
 function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [articles, setArticles] = useState([]);
+  const [topics, setTopics] = useState([]);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const topic = searchParams.get("topic");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Get initial values from searchParams and set state
+  const [sortBy, setSortBy] = useState(
+    searchParams.get("sort_by") || "created_at"
+  );
+  const [order, setOrder] = useState(searchParams.get("order") || "asc");
+  const [topic, setTopic] = useState(searchParams.get("topic") || "");
 
   useEffect(() => {
     setLoading(true);
     setError(null);
 
-    getArticles({ p: page, topic })
+    getArticles({ p: page, sort_by: sortBy, order, topic })
       .then(({ articles, total_count }) => {
         setArticles(articles);
         setTotalCount(total_count);
@@ -28,7 +36,21 @@ function HomePage() {
         setError("Failed to load articles");
         setLoading(false);
       });
-  }, [page, topic]);
+  }, [page, sortBy, order, topic]);
+
+  // Update searchParams whenever state changes
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (sortBy) params.set("sort_by", sortBy);
+    if (order) params.set("order", order);
+    if (topic) params.set("topic", topic);
+
+    setSearchParams(params);
+  }, [sortBy, order, topic, setSearchParams]);
+
+  useEffect(() => {
+    getTopics().then((topicsData) => setTopics(topicsData));
+  }, []);
 
   if (loading) {
     return <p>Loading articles...</p>;
@@ -39,24 +61,15 @@ function HomePage() {
 
   return (
     <>
-      <header className="articles-header-bar">
-        <h2>Articles {topic && `on ${topic}`}</h2>
-        <div className="articles-header-btns">
-          <div className="sort-filter-btns">
-            <button>Sort By</button>
-            <button>Order (asc/desc)</button>
-            <button>Filter by topic</button>
-          </div>
-          <button
-            className="new-article-btn"
-            onClick={() => {
-              navigate("/articles/new");
-            }}
-          >
-            New article!
-          </button>
-        </div>
-      </header>
+      <ArticlesHeader
+        topics={topics}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        order={order}
+        setOrder={setOrder}
+        topic={topic}
+        setTopic={setTopic}
+      />
 
       {articles.length > 0 ? (
         <>

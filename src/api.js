@@ -4,12 +4,18 @@ const api = axios.create({
   baseURL: "https://hs-news.onrender.com/api", // Maybe hide this later?
 });
 
-export const getArticles = ({ limit = 10, p = 1, topic } = {}) => {
+export const getArticles = ({
+  limit = 10,
+  p = 1,
+  topic,
+  sort_by,
+  order,
+} = {}) => {
   const params = { limit, p };
 
-  if (topic) {
-    params.topic = topic;
-  }
+  if (topic) params.topic = topic;
+  if (sort_by) params.sort_by = sort_by;
+  if (order) params.order = order;
 
   return api.get("/articles", { params }).then((res) => {
     return res.data;
