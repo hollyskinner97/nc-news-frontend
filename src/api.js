@@ -56,10 +56,7 @@ export const postComment = (article_id, newComment) => {
 };
 
 export const deleteComment = (comment_id) => {
-  return api
-    .delete(`/comments/${comment_id}`)
-    .then(() => {})
-    .catch((error) => {
-      throw error;
-    });
+  return api.delete(`/comments/${comment_id}`).catch((error) => {
+    throw error;
+  });
 };
