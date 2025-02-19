@@ -42,12 +42,6 @@ export const getCommentsByArticleId = (
 };
 
 export const postComment = (article_id, newComment) => {
-  console.log(
-    "Posting comment with article_id:",
-    article_id,
-    "and comment:",
-    newComment
-  );
   return api
     .post(`/articles/${article_id}/comments`, newComment)
     .then((res) => {
@@ -58,5 +52,17 @@ export const postComment = (article_id, newComment) => {
 export const deleteComment = (comment_id) => {
   return api.delete(`/comments/${comment_id}`).catch((error) => {
     throw error;
+  });
+};
+
+export const getTopics = () => {
+  return api.get("/topics").then((res) => {
+    return res.data.topics;
+  });
+};
+
+export const postTopic = (newTopic) => {
+  return api.post(`/topics`, newTopic).then((res) => {
+    return res.data.topic;
   });
 };

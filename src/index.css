@@ -49,6 +49,10 @@ h2:hover {
   color: #f76f6c;
 }
 
+h3 {
+  margin: 10px;
+}
+
 button {
   border-radius: 8px;
   border: 2px solid;
