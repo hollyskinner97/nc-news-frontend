@@ -38,7 +38,14 @@ function TopicsPage() {
         {topics.map((topic) => {
           return (
             <div className="topic-card" key={topic.slug}>
-              <h2>{topic.slug}</h2>
+              <h2>
+                <Link
+                  to={`/articles?topic=${topic.slug}`}
+                  className="article-link"
+                >
+                  {topic.slug}
+                </Link>
+              </h2>
               <p>{topic.description}</p>
             </div>
           );

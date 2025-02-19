@@ -18,6 +18,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
+          <Route path="/articles" element={<HomePage />} />
           <Route path="/articles/:article_id" element={<ArticlePage />}></Route>
           <Route path="/articles/new" element={<NewArticlePage />}></Route>
           <Route path="/users" element={<UsersPage />}></Route>

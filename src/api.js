@@ -4,8 +4,14 @@ const api = axios.create({
   baseURL: "https://hs-news.onrender.com/api", // Maybe hide this later?
 });
 
-export const getArticles = ({ limit = 10, p = 1 } = {}) => {
-  return api.get("/articles", { params: { limit, p } }).then((res) => {
+export const getArticles = ({ limit = 10, p = 1, topic } = {}) => {
+  const params = { limit, p };
+
+  if (topic) {
+    params.topic = topic;
+  }
+
+  return api.get("/articles", { params }).then((res) => {
     return res.data;
   });
 };

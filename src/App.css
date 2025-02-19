@@ -29,6 +29,11 @@ footer {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
+.home-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .menu-container {
   display: flex;
   justify-content: center;
@@ -130,7 +135,7 @@ footer {
   box-sizing: border-box;
 }
 
-.articles-btn-bar {
+.articles-header-bar {
   background-color: #fbd3b7;
   border: solid #f76f6c;
   padding: 10px;
@@ -138,14 +143,28 @@ footer {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   margin-bottom: 10px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
   gap: 10px;
   box-sizing: border-box;
 }
 
-.articles-btn-bar button {
-  min-width: 100px;
+.articles-header-bar h2 {
+  margin: 0;
+  margin-top: 5px;
+}
+
+.articles-header-btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.sort-filter-btns {
+  display: flex;
+  gap: 5px;
 }
 
 .new-article-btn {
@@ -191,6 +210,18 @@ footer {
   width: 50%;
   align-self: center;
   padding: 4px;
+}
+
+.no-articles-msg {
+  background-color: #fbd3b7;
+  border: solid #f76f6c;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  line-height: 1.2;
+  margin: 0 auto;
+  width: 100%;
+  font-size: 18px;
 }
 
 .single-article-page .article-card {
