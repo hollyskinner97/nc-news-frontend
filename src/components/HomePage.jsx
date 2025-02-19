@@ -8,21 +8,24 @@ function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [articles, setArticles] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
 
-    getArticles()
-      .then((articles) => {
+    getArticles({ p: page })
+      .then(({ articles, total_count }) => {
         setArticles(articles);
+        setTotalCount(total_count);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         setError("Failed to load articles");
         setLoading(false);
       });
-  }, []);
+  }, [page]);
 
   if (loading) {
     return <p>Loading articles...</p>;
@@ -75,6 +78,23 @@ function HomePage() {
             </div>
           );
         })}
+      </div>
+      <div className="pagination-btns">
+        <button
+          className={"prev-pg-btn"}
+          onClick={() => setPage((prev) => prev - 1)}
+          disabled={page === 1}
+        >
+          ◀ Previous page
+        </button>
+        <p>Page {page}</p>
+        <button
+          className={"next-pg-btn"}
+          onClick={() => setPage((prev) => prev + 1)}
+          disabled={page * 10 >= totalCount}
+        >
+          Next page ▶
+        </button>
       </div>
     </>
   );

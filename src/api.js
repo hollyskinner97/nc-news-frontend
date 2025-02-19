@@ -4,9 +4,9 @@ const api = axios.create({
   baseURL: "https://hs-news.onrender.com/api", // Maybe hide this later?
 });
 
-export const getArticles = () => {
-  return api.get("/articles").then((res) => {
-    return res.data.articles;
+export const getArticles = ({ limit = 10, p = 1 } = {}) => {
+  return api.get("/articles", { params: { limit, p } }).then((res) => {
+    return res.data;
   });
 };
 
@@ -27,10 +27,18 @@ export const patchVotesOnArticle = (article_id, voteData) => {
     });
 };
 
-export const getCommentsByArticleId = (article_id) => {
-  return api.get(`/articles/${article_id}/comments`).then((res) => {
-    return res.data.comments;
-  });
+export const getCommentsByArticleId = (
+  article_id,
+  { limit = 3, p = 1 } = {}
+) => {
+  return api
+    .get(`/articles/${article_id}/comments`, { params: { limit, p } })
+    .then((res) => {
+      return res.data.comments;
+    })
+    .catch((error) => {
+      throw error;
+    });
 };
 
 export const postComment = (article_id, newComment) => {
@@ -48,10 +56,7 @@ export const postComment = (article_id, newComment) => {
 };
 
 export const deleteComment = (comment_id) => {
-  return api
-    .delete(`/comments/${comment_id}`)
-    .then(() => {})
-    .catch((error) => {
-      throw error;
-    });
+  return api.delete(`/comments/${comment_id}`).catch((error) => {
+    throw error;
+  });
 };
