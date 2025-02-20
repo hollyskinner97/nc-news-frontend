@@ -3,10 +3,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import "../App.css";
 import { postComment, postTopic } from "../api";
 import { UserAccount } from "../contexts/UserAccount";
+import LoadingPage from "./LoadingPage";
+import ErrorHandler from "./ErrorHandler";
 
 function NewTopicForm({ setTopics }) {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
   const [successful, setSuccessful] = useState(false);
   const [formInfo, setFormInfo] = useState({
     slug: "",
@@ -22,7 +24,7 @@ function NewTopicForm({ setTopics }) {
       ...curr,
       [id]: value,
     }));
-    setError(false);
+    setError(null);
   }
 
   function handleSubmit(e) {
@@ -43,7 +45,7 @@ function NewTopicForm({ setTopics }) {
           description: "",
         });
         setSuccessful(true);
-        setError(false);
+        setError(null);
       })
       .catch((err) => {
         setError(err);
@@ -59,7 +61,7 @@ function NewTopicForm({ setTopics }) {
       slug: "",
       description: "",
     });
-    setError(false);
+    setError(null);
   }
 
   if (loading) {
@@ -73,7 +75,7 @@ function NewTopicForm({ setTopics }) {
     <main className="new-topic-form">
       <h3>Want to add a new topic?</h3>
       <form>
-        <div className="input-container">
+        <div className="topic-input-container">
           <label htmlFor="slug">Topic:</label>
           <input
             type="text"
@@ -84,7 +86,7 @@ function NewTopicForm({ setTopics }) {
             required
           />
         </div>
-        <div className="input-container">
+        <div className="topic-input-container">
           <label htmlFor="description">Description:</label>
           <input
             type="text"

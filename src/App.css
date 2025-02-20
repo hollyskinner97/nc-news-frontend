@@ -30,16 +30,22 @@ footer {
   width: 100%;
 }
 
-.no-content-msg {
+.no-articles-msg {
   background-color: #fbd3b7;
   border: solid #f76f6c;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   line-height: 1.2;
+  margin: 10px auto;
+  font-size: 16px;
+}
+
+.no-comments-msg {
+  padding: 20px;
+  line-height: 1.2;
   margin: 0 auto;
-  width: 100%;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 /* App component */
@@ -84,74 +90,6 @@ footer {
 
 .navbar button {
   width: 100%;
-}
-
-/* TopicsPage component */
-.topics-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 20px;
-  grid-auto-rows: 1fr;
-  box-sizing: border-box;
-  margin-top: 20px;
-}
-
-.topic-card {
-  background-color: #fbd3b7;
-  border: solid #f76f6c;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  line-height: 1.2;
-  margin: 0 auto;
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.new-topic-form {
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  border-radius: 8px;
-  padding: 15px;
-  margin: auto;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.input-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.new-topic-form label {
-  width: 150px;
-  margin-bottom: 5px;
-  text-align: left;
-}
-
-.new-topic-form input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-  font-family: inherit;
-}
-
-.topic-form-btns {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  gap: 10px;
-  margin-bottom: 3px;
 }
 
 /* HomePage component */
@@ -233,7 +171,7 @@ footer {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  line-height: 1.2;
+  line-height: 1.1;
   margin: 0 auto;
   width: 90%;
   display: flex;
@@ -242,21 +180,38 @@ footer {
   align-items: center;
 }
 
+.article-card p {
+  margin-bottom: 8px;
+  margin-top: 0;
+}
+
 .article-card img {
   width: 50%;
   border-radius: 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
+.article-card-btns {
+  display: flex;
+  justify-content: center;
+  width: 70%;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  gap: 10px;
+}
+
 .article-card button {
   width: 50%;
-  align-self: center;
   padding: 4px;
 }
 
 .single-article-page .article-card {
   width: 100%;
   margin: 20px auto;
+}
+
+.single-article-page .article-card img {
+  margin-bottom: 20px;
 }
 
 .article-link {
@@ -370,4 +325,189 @@ footer {
 .load-more-btn {
   width: 25%;
   margin: 0 auto;
+}
+
+/* New Article component */
+.new-article-form {
+  display: flex;
+  flex-direction: column;
+  background-color: #fbd3b7;
+  border: solid #f76f6c;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  padding: 15px;
+  margin: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.article-input-container {
+  display: grid;
+  grid-template-columns: 150px auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.new-article-form label {
+  width: 150px;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.new-article-form input,
+.new-article-dropdown {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.new-article-dropdown {
+  width: fit-content;
+  min-width: 180px;
+  cursor: pointer;
+}
+
+.new-article-dropdown:hover {
+  border-color: #f76f6c;
+}
+
+.new-article-form-btns {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
+  margin-bottom: 3px;
+}
+
+/* TopicsPage component */
+.topics-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+  grid-auto-rows: 1fr;
+  box-sizing: border-box;
+  margin-top: 20px;
+}
+
+.topic-card {
+  background-color: #fbd3b7;
+  border: solid #f76f6c;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  line-height: 1.2;
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.new-topic-form {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  padding: 15px;
+  margin: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.topic-input-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.new-topic-form label {
+  width: 150px;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.new-topic-form input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.topic-form-btns {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
+  margin-bottom: 3px;
+}
+
+/* UsersPage component */
+.user-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+  grid-auto-rows: 1fr;
+  box-sizing: border-box;
+}
+
+.user-card {
+  background-color: #fbd3b7;
+  border: solid #f76f6c;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  line-height: 1.2;
+  margin: 0 auto;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.user-card img {
+  max-height: 100px;
+  width: auto;
+}
+
+.user-link {
+  text-decoration: none;
+}
+
+.user-card.logged-in {
+  border: solid rgba(2, 230, 2, 0.7);
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+}
+
+.user-card.logged-in .badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #f76f6c;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 12px;
+  border: solid white;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.single-user-page .user-card {
+  width: auto;
+  margin: 20px auto;
+}
+
+.single-user-page .user-card img {
+  max-height: 400px;
 }

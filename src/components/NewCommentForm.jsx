@@ -10,7 +10,7 @@ function NewCommentForm({ setComments }) {
   const { username } = useContext(UserAccount);
   const { article_id } = useParams();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
   const [successful, setSuccessful] = useState(false);
   const [formInfo, setFormInfo] = useState({
     username: username,
@@ -24,7 +24,7 @@ function NewCommentForm({ setComments }) {
       ...curr,
       body: e.target.value,
     }));
-    setError(false);
+    setError(null);
   }
 
   function handleSubmit(e) {
@@ -45,7 +45,7 @@ function NewCommentForm({ setComments }) {
           body: "",
         });
         setSuccessful(true);
-        setError(false);
+        setError(null);
       })
       .catch((err) => {
         setError(err);
@@ -61,7 +61,7 @@ function NewCommentForm({ setComments }) {
       username: username,
       body: "",
     });
-    setError(false);
+    setError(null);
   }
 
   if (loading) {

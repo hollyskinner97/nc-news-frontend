@@ -1,19 +1,20 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { getArticles, getTopics } from "../api";
+import { deleteArticle, getArticles } from "../api";
 import ArticlesHeader from "./ArticlesHeader";
 import ErrorHandler from "./ErrorHandler";
 import LoadingPage from "./LoadingPage";
 import dayjs from "dayjs";
 import "../App.css";
+import { UserAccount } from "../contexts/UserAccount";
 
-function HomePage() {
+function HomePage({ articles, setArticles }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [articles, setArticles] = useState([]);
-  const [topics, setTopics] = useState([]);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+  const { username } = useContext(UserAccount);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -51,9 +52,29 @@ function HomePage() {
     setSearchParams(params);
   }, [sortBy, order, topic, setSearchParams]);
 
-  useEffect(() => {
-    getTopics().then((topicsData) => setTopics(topicsData));
-  }, []);
+  function handleDelete(article_id) {
+    if (deleting) return;
+    setDeleting(true);
+    setError(null);
+
+    const articleToDelete = articles.find(
+      (article) => article.article_id === article_id
+    );
+
+    setArticles((prevArticles) =>
+      prevArticles.filter((article) => article.article_id !== article_id)
+    );
+
+    deleteArticle(article_id)
+      .then(() => {
+        alert("Article successfully deleted");
+      })
+      .catch((err) => {
+        setError(err);
+        // Restore the article if delete fails
+        setArticles((prevArticles) => [...prevArticles, articleToDelete]);
+      });
+  }
 
   if (loading) {
     return <LoadingPage message={"Loading articles..."} />;
@@ -66,7 +87,6 @@ function HomePage() {
   return (
     <>
       <ArticlesHeader
-        topics={topics}
         sortBy={sortBy}
         setSortBy={setSortBy}
         order={order}
@@ -96,14 +116,22 @@ function HomePage() {
                   </h2>
                   <p>Author: {article.author}</p>
                   <p>Topic: {article.topic}</p>
+                  <p>Votes: {article.votes}</p>
                   <p>{formattedDate}</p>
-                  <button
-                    onClick={() => {
-                      navigate(`/articles/${article.article_id}`);
-                    }}
-                  >
-                    Read article...
-                  </button>
+                  <div className="article-card-btns">
+                    <button
+                      onClick={() => {
+                        navigate(`/articles/${article.article_id}`);
+                      }}
+                    >
+                      Read article...
+                    </button>
+                    {article.author === username && (
+                      <button onClick={() => handleDelete(article.article_id)}>
+                        Delete
+                      </button>
+                    )}
+                  </div>
                 </section>
               );
             })}
@@ -128,8 +156,9 @@ function HomePage() {
           </aside>
         </>
       ) : (
-        <p className="no-content-msg">
-          Sorry, there are no articles available here!
+        <p className="no-articles-msg">
+          Sorry, there are no articles available here! Click the 'New article!'
+          button above to write your own.
         </p>
       )}
     </>

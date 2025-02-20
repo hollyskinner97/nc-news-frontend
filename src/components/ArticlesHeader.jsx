@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import "../App.css";
+import { getTopics } from "../api";
 
-function ArticlesHeader({ topics, setSortBy, setOrder, topic, setTopic }) {
+function ArticlesHeader({ setSortBy, setOrder, topic, setTopic }) {
+  const [topics, setTopics] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getTopics().then((topicsData) => setTopics(topicsData));
+  }, []);
 
   function handleSortByChange(e) {
     setSortBy(e.target.value);

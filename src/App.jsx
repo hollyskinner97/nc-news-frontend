@@ -9,18 +9,30 @@ import UsersPage from "./components/UsersPage";
 import AccountPage from "./components/AccountPage";
 import TopicsPage from "./components/TopicsPage";
 import ErrorHandler from "./components/ErrorHandler";
+import { useState } from "react";
 
 function App() {
+  const [articles, setArticles] = useState([]);
+
   return (
     <div className="app-container">
       <UserAccountProvider>
-        <Header className="header"></Header>
+        <Header />
 
         <Routes>
-          <Route path="/" element={<HomePage />}></Route>
-          <Route path="/articles" element={<HomePage />} />
+          <Route
+            path="/"
+            element={<HomePage articles={articles} setArticles={setArticles} />}
+          ></Route>
+          <Route
+            path="/articles"
+            element={<HomePage articles={articles} setArticles={setArticles} />}
+          />
           <Route path="/articles/:article_id" element={<ArticlePage />}></Route>
-          <Route path="/articles/new" element={<NewArticlePage />}></Route>
+          <Route
+            path="/articles/new"
+            element={<NewArticlePage setArticles={setArticles} />}
+          ></Route>
           <Route path="/users" element={<UsersPage />}></Route>
           <Route path="/users/:username" element={<AccountPage />}></Route>
           <Route path="/topics" element={<TopicsPage />}></Route>
@@ -30,7 +42,7 @@ function App() {
           />
         </Routes>
       </UserAccountProvider>
-      <footer>Copyright</footer>
+      <footer>© 2025 HS News. All rights reserved.</footer>
     </div>
   );
 }

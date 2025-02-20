@@ -107,7 +107,7 @@ function CommentsList() {
           </button>
         </>
       ) : (
-        <p className="no-content-msg">
+        <p className="no-comments-msg">
           Sorry, there are no comments available here! Fill out the form above
           to write the first one...
         </p>

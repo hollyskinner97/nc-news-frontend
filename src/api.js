@@ -28,6 +28,12 @@ export const getArticlesById = (article_id) => {
   });
 };
 
+export const postArticle = (newArticle) => {
+  return api.post(`/articles`, newArticle).then((res) => {
+    return res.data.article;
+  });
+};
+
 export const patchVotesOnArticle = (article_id, voteData) => {
   return api
     .patch(`/articles/${article_id}`, voteData)
@@ -37,6 +43,12 @@ export const patchVotesOnArticle = (article_id, voteData) => {
     .catch((error) => {
       throw error;
     });
+};
+
+export const deleteArticle = (article_id) => {
+  return api.delete(`/articles/${article_id}`).catch((error) => {
+    throw error;
+  });
 };
 
 export const getCommentsByArticleId = (
@@ -76,5 +88,17 @@ export const getTopics = () => {
 export const postTopic = (newTopic) => {
   return api.post(`/topics`, newTopic).then((res) => {
     return res.data.topic;
+  });
+};
+
+export const getUsers = () => {
+  return api.get("/users").then((res) => {
+    return res.data.users;
+  });
+};
+
+export const getUserByUsername = (username) => {
+  return api.get(`/users/${username}`).then((res) => {
+    return res.data.user;
   });
 };
