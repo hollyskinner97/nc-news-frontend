@@ -2,12 +2,19 @@ import NavBar from "./NavBar";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserAccount } from "../contexts/UserAccount";
 import "../App.css";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
   const { username } = useContext(UserAccount);
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
+  const navigate = useNavigate();
+
+  // Navigate to home page and reset filters when title clicked
+  function handleTitleClick() {
+    navigate("/", { replace: true });
+    window.location.reload();
+  }
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -27,14 +34,10 @@ function Header() {
   }, [open]);
 
   return (
-    <div className="header">
+    <header className="header">
       <p>Logged in as {username}</p>
 
-      <h1>
-        <Link to={"/"} className="home-link">
-          HS News
-        </Link>
-      </h1>
+      <h1 onClick={handleTitleClick}>HS News</h1>
 
       <div className="menu-container" ref={menuRef}>
         <button
@@ -47,7 +50,7 @@ function Header() {
         </button>
         {open && <NavBar setOpen={open} />}
       </div>
-    </div>
+    </header>
   );
 }
 

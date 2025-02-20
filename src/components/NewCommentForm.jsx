@@ -3,6 +3,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import "../App.css";
 import { postComment } from "../api";
 import { UserAccount } from "../contexts/UserAccount";
+import LoadingPage from "./LoadingPage";
+import ErrorHandler from "./ErrorHandler";
 
 function NewCommentForm({ setComments }) {
   const { username } = useContext(UserAccount);
@@ -14,6 +16,7 @@ function NewCommentForm({ setComments }) {
     username: username,
     body: "",
   });
+  const [validForm, setValidForm] = useState(true);
 
   function handleChange(e) {
     setSuccessful(false);
@@ -28,7 +31,7 @@ function NewCommentForm({ setComments }) {
     e.preventDefault();
 
     if (formInfo.body.trim() === "") {
-      setError(true);
+      setValidForm(false);
       return;
     }
 
@@ -44,8 +47,8 @@ function NewCommentForm({ setComments }) {
         setSuccessful(true);
         setError(false);
       })
-      .catch(() => {
-        setError(true);
+      .catch((err) => {
+        setError(err);
       })
       .finally(() => {
         setLoading(false);
@@ -62,7 +65,10 @@ function NewCommentForm({ setComments }) {
   }
 
   if (loading) {
-    return <p>Loading new comment form...</p>;
+    return <LoadingPage message={"Loading new comment form..."} />;
+  }
+  if (error) {
+    return <ErrorHandler message={error.message} />;
   }
 
   return (
@@ -80,7 +86,9 @@ function NewCommentForm({ setComments }) {
             onChange={handleChange}
             required
           />
-          {error && <p className="err-message">Please enter a valid comment</p>}
+          {!validForm && (
+            <p className="err-message">Please enter a valid comment</p>
+          )}
 
           <div className="comment-form-btns">
             <button className="comment-form-btn" onClick={handleSubmit}>

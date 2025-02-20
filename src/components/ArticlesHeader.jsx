@@ -2,28 +2,20 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import "../App.css";
 
-function ArticlesHeader({
-  topics,
-  sortBy,
-  setSortBy,
-  order,
-  setOrder,
-  topic,
-  setTopic,
-}) {
+function ArticlesHeader({ topics, setSortBy, setOrder, topic, setTopic }) {
   const navigate = useNavigate();
 
-  const handleSortByChange = (e) => {
+  function handleSortByChange(e) {
     setSortBy(e.target.value);
-  };
+  }
 
-  const handleOrderChange = (e) => {
+  function handleOrderChange(e) {
     setOrder(e.target.value);
-  };
+  }
 
-  const handleTopicChange = (e) => {
+  function handleTopicChange(e) {
     setTopic(e.target.value);
-  };
+  }
 
   return (
     <>

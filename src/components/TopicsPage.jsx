@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 import { getTopics } from "../api";
 import NewTopicForm from "./NewTopicForm";
+import LoadingPage from "./LoadingPage";
+import ErrorHandler from "./ErrorHandler";
 
 function TopicsPage() {
   const [topics, setTopics] = useState([]);
@@ -17,24 +19,27 @@ function TopicsPage() {
         setTopics(topics);
         setLoading(false);
       })
-      .catch(() => {
-        setError("Failed to load topics");
+      .catch((err) => {
+        setError(err);
         setLoading(false);
       });
   }, []);
 
   if (loading) {
-    return <p>Loading topics...</p>;
+    return <LoadingPage message={"Loading topics..."} />;
+  }
+
+  if (error) {
+    return <ErrorHandler message={error.message} />;
   }
 
   return (
     <>
-      <div className="topics-bar">
+      <header className="topics-bar">
         <NewTopicForm setTopics={setTopics} />
-        {error && <p className="err-message">{error}</p>}
-      </div>
+      </header>
 
-      <div className="topics-cards">
+      <main className="topics-cards">
         {topics.map((topic) => {
           return (
             <div className="topic-card" key={topic.slug}>
@@ -50,7 +55,7 @@ function TopicsPage() {
             </div>
           );
         })}
-      </div>
+      </main>
     </>
   );
 }

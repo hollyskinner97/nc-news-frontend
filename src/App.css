@@ -10,6 +10,39 @@ footer {
   margin-top: 40px;
 }
 
+/* Error and loading components */
+.err-handler {
+  background-color: #fbd3b7;
+  border: solid #f76f6c;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.err-message {
+  color: red;
+  font-weight: bold;
+}
+
+.loading-page {
+  background-color: #fbd3b7;
+  border: solid #f76f6c;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.no-content-msg {
+  background-color: #fbd3b7;
+  border: solid #f76f6c;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  line-height: 1.2;
+  margin: 0 auto;
+  width: 100%;
+  font-size: 18px;
+}
+
+/* App component */
 .app-container {
   display: flexbox;
   box-sizing: border-box;
@@ -27,11 +60,6 @@ footer {
   border: solid #f76f6c;
   border-radius: 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-}
-
-.home-link {
-  text-decoration: none;
-  color: inherit;
 }
 
 .menu-container {
@@ -226,18 +254,6 @@ footer {
   padding: 4px;
 }
 
-.no-articles-msg {
-  background-color: #fbd3b7;
-  border: solid #f76f6c;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  line-height: 1.2;
-  margin: 0 auto;
-  width: 100%;
-  font-size: 18px;
-}
-
 .single-article-page .article-card {
   width: 100%;
   margin: 20px auto;
@@ -301,11 +317,6 @@ footer {
   font-size: 14px;
   font-family: inherit;
   margin-bottom: 15px;
-}
-
-.err-message {
-  color: red;
-  font-weight: bold;
 }
 
 .comment-form-btns {

@@ -8,7 +8,7 @@ import NewArticlePage from "./components/NewArticlePage";
 import UsersPage from "./components/UsersPage";
 import AccountPage from "./components/AccountPage";
 import TopicsPage from "./components/TopicsPage";
-import NewTopicPage from "./components/NewTopicPage";
+import ErrorHandler from "./components/ErrorHandler";
 
 function App() {
   return (
@@ -24,7 +24,10 @@ function App() {
           <Route path="/users" element={<UsersPage />}></Route>
           <Route path="/users/:username" element={<AccountPage />}></Route>
           <Route path="/topics" element={<TopicsPage />}></Route>
-          <Route path="/topics/new" element={<NewTopicPage />}></Route>
+          <Route
+            path="*"
+            element={<ErrorHandler message={"Invalid route!"} />}
+          />
         </Routes>
       </UserAccountProvider>
       <footer>Copyright</footer>
