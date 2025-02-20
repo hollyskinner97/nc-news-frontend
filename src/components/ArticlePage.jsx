@@ -4,6 +4,8 @@ import { getArticlesById, patchVotesOnArticle } from "../api";
 import dayjs from "dayjs";
 import "../App.css";
 import CommentsList from "./CommentsList";
+import LoadingPage from "./LoadingPage";
+import ErrorHandler from "./ErrorHandler";
 
 function ArticlePage() {
   const [loading, setLoading] = useState(true);
@@ -23,7 +25,7 @@ function ArticlePage() {
         setLoading(false);
       })
       .catch((err) => {
-        setError("Failed to load article");
+        setError(err);
         setLoading(false);
       });
   }, [article_id]);
@@ -48,17 +50,18 @@ function ArticlePage() {
   }
 
   if (loading) {
-    return <p>Loading article...</p>;
+    return <LoadingPage message={"Loading article..."} />;
   }
+
   if (error) {
-    return <p>{error}</p>;
+    return <ErrorHandler message={error.message} />;
   }
 
   const formattedDate = dayjs(article.created_at).format("MMM D, YYYY");
 
   return (
-    <div className="single-article-page">
-      <div className="article-card">
+    <main className="single-article-page">
+      <section className="article-card">
         <h2>{article.title}</h2>
         <img src={article.article_img_url} alt={article.title} />
         <p>Author: {article.author}</p>
@@ -80,9 +83,9 @@ function ArticlePage() {
             {userVote === -1 ? "Remove vote" : "Down vote!"}
           </button>
         </div>
-      </div>
+      </section>
       <CommentsList />
-    </div>
+    </main>
   );
 }
 

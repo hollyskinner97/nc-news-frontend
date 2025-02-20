@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { getArticles, getTopics } from "../api";
-import "../App.css";
-import dayjs from "dayjs";
 import ArticlesHeader from "./ArticlesHeader";
+import ErrorHandler from "./ErrorHandler";
+import LoadingPage from "./LoadingPage";
+import dayjs from "dayjs";
+import "../App.css";
 
 function HomePage() {
   const [loading, setLoading] = useState(true);
@@ -32,17 +34,18 @@ function HomePage() {
         setTotalCount(total_count);
         setLoading(false);
       })
-      .catch(() => {
-        setError("Failed to load articles");
+      .catch((err) => {
+        setError(err);
         setLoading(false);
+        // "Failed to load articles"
       });
   }, [page, sortBy, order, topic]);
 
   // Update searchParams whenever state changes
   useEffect(() => {
     const params = new URLSearchParams();
-    if (sortBy) params.set("sort_by", sortBy);
-    if (order) params.set("order", order);
+    if (sortBy !== "created_at") params.set("sort_by", sortBy);
+    if (order !== "asc") params.set("order", order);
     if (topic) params.set("topic", topic);
 
     setSearchParams(params);
@@ -53,10 +56,11 @@ function HomePage() {
   }, []);
 
   if (loading) {
-    return <p>Loading articles...</p>;
+    return <LoadingPage message={"Loading articles..."} />;
   }
+
   if (error) {
-    return <p>{error}</p>;
+    return <ErrorHandler message={error.message} />;
   }
 
   return (
@@ -80,7 +84,7 @@ function HomePage() {
               );
 
               return (
-                <div className="article-card" key={article.article_id}>
+                <section className="article-card" key={article.article_id}>
                   <img src={article.article_img_url} alt={article.title} />
                   <h2>
                     <Link
@@ -100,7 +104,7 @@ function HomePage() {
                   >
                     Read article...
                   </button>
-                </div>
+                </section>
               );
             })}
           </main>
@@ -124,7 +128,7 @@ function HomePage() {
           </aside>
         </>
       ) : (
-        <p className="no-articles-msg">
+        <p className="no-content-msg">
           Sorry, there are no articles available here!
         </p>
       )}

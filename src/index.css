@@ -36,9 +36,11 @@ h1 {
   font-size: 4em;
   line-height: 1.1;
   color: #f5353b;
+  text-decoration: inherit;
+  cursor: pointer;
 }
 
-h1 a:hover {
+h1:hover {
   color: #f76f6c;
 }
 
