@@ -32,6 +32,9 @@ footer {
   .menu-container {
     justify-content: center;
   }
+  .menu-btn {
+    padding: 0.4em 2em;
+  }
   .logged-in-msg {
     font-size: 12px;
   }
@@ -91,7 +94,14 @@ footer {
   .new-topic-form input,
   .comment-form-input {
     width: 100%;
-    padding: 10px;
+    padding: 0;
+    font-size: 0.8em;
+  }
+  .article-input-container {
+    gap: 2px;
+  }
+  .article-input-container label {
+    margin: 0;
   }
   .new-article-form-btns,
   .comment-form-btns {
