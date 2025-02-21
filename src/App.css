@@ -94,11 +94,15 @@ footer {
   .new-topic-form input,
   .comment-form-input {
     width: 100%;
-    padding: 0;
+    padding: 15px 20px;
     font-size: 0.8em;
   }
   .article-input-container {
-    gap: 2px;
+    font-size: 0.8em;
+    grid-template-columns: 110px auto;
+  }
+  .topic-input-container {
+    font-size: 0.8em;
   }
   .article-input-container label {
     margin: 0;
