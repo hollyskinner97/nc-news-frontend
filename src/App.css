@@ -24,7 +24,10 @@ footer {
 /* Mobile phone styling */
 @media (max-width: 768px) {
   #root {
-    padding: 10px;
+    padding: 0.5rem;
+  }
+  h1 {
+    font-size: 3em;
   }
   .menu-container {
     justify-content: center;
