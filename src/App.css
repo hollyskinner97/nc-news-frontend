@@ -33,7 +33,7 @@ footer {
     justify-content: center;
   }
   .logged-in-msg {
-    font-size: 0.7em;
+    font-size: 10px;
   }
   .navbar {
     width: 100%;
