@@ -6,8 +6,83 @@
   text-align: center;
 }
 
+/* App component */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  min-width: 400px;
+  overflow-x: hidden;
+}
+
 footer {
   margin-top: 40px;
+}
+
+/* Mobile phone styling */
+@media (max-width: 850px) {
+  .menu-container {
+    justify-content: center;
+  }
+  .navbar {
+    width: 100%;
+  }
+  .navbar button {
+    width: 100%;
+  }
+  footer {
+    margin-top: 30px;
+    padding: 10px;
+  }
+  .article-cards .topics-cards .user-cards .header .comment-section {
+    grid-template-columns: 1fr;
+  }
+  .articles-header-bar {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+  }
+  .articles-header-btns {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+  }
+  .article-card {
+    width: 100%;
+    padding: 10px;
+  }
+  .article-card img {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+  .article-card-btns {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .comment-card {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 96%;
+  }
+  .comment-card-btns {
+    width: 100%;
+  }
+  .new-article-form input,
+  .new-topic-form input,
+  .comment-form-input {
+    width: 100%;
+    padding: 10px;
+  }
+  .new-article-form-btns,
+  .comment-form-btns {
+    flex-direction: column;
+    gap: 8px;
+  }
 }
 
 /* Error and loading components */
@@ -48,17 +123,11 @@ footer {
   font-size: 16px;
 }
 
-/* App component */
-.app-container {
-  display: flexbox;
-  box-sizing: border-box;
-  width: 100%;
-}
-
+/* Header component */
 .header {
   background-color: #fbd3b7;
-  display: grid;
-  grid-template-columns: 15% 70% 15%;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 5px;
   margin-bottom: 10px;
@@ -66,10 +135,20 @@ footer {
   border: solid #f76f6c;
   border-radius: 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+}
+
+.logged-in-msg {
+  flex: 0 0 20%;
+}
+
+.app-title {
+  flex: 0 0 60%;
 }
 
 .menu-container {
   display: flex;
+  flex: 0 0 20%;
   justify-content: center;
   align-items: center;
   position: relative;
@@ -77,7 +156,7 @@ footer {
 
 .menu-btn {
   max-height: 3rem;
-  width: 70%;
+  width: 80%;
   text-align: center;
 }
 
@@ -97,16 +176,11 @@ footer {
 /* HomePage component */
 .article-cards {
   display: grid;
-  grid-template-columns: repeat(2, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 20px;
   grid-auto-rows: 1fr;
   box-sizing: border-box;
-}
-
-@media (max-width: 850px) {
-  .article-cards {
-    grid-template-columns: 1fr;
-  }
+  width: 100%;
 }
 
 .articles-header-bar {
@@ -115,7 +189,7 @@ footer {
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -160,17 +234,27 @@ footer {
 }
 
 .pagination-btns {
-  margin-top: 20px;
-  width: 100%;
+  background-color: #fbd3b7;
+  border: solid #f76f6c;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
-  gap: 18px;
   align-items: center;
+  margin-top: 20px;
+  width: 100%;
+  gap: 30px;
 }
 
 .pagination-btns p {
   font-weight: bold;
-  color: white;
+  font-size: 18px;
+  color: #f76f6c;
+}
+
+.pagination-btns button {
+  width: 200px;
 }
 
 .article-card {
@@ -181,7 +265,7 @@ footer {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   line-height: 1.1;
   margin: 0 auto;
-  width: 90%;
+  width: 95%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -284,7 +368,7 @@ footer {
   gap: 10px;
 }
 
-/* Each individual comment card */
+/* Individual comment cards */
 .comment-card {
   display: flex;
   justify-content: space-between;
@@ -300,7 +384,7 @@ footer {
   gap: 20px;
 }
 
-/* Content area (author, body, votes, date) */
+/* Content area */
 .comment-card .content {
   flex: 1;
   padding-right: 20px;
@@ -335,6 +419,9 @@ footer {
 .delete-btn {
   background-color: #f2d2b3;
   color: #f5353b;
+}
+.delete-btn:hover {
+  border-color: #f5353b;
 }
 
 .comment-card p {
@@ -526,6 +613,7 @@ footer {
 .single-user-page .user-card {
   width: auto;
   margin: 20px auto;
+  padding-bottom: 40px;
 }
 
 .single-user-page .user-card img {

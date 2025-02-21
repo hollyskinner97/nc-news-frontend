@@ -125,7 +125,10 @@ function HomePage({ articles, setArticles }) {
                       Read article...
                     </button>
                     {article.author === username && (
-                      <button onClick={() => handleDelete(article.article_id)}>
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleDelete(article.article_id)}
+                      >
                         Delete
                       </button>
                     )}

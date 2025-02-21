@@ -35,9 +35,11 @@ function Header() {
 
   return (
     <header className="header">
-      <p>Logged in as {username}</p>
+      <p className="logged-in-msg">Logged in as {username}</p>
 
-      <h1 onClick={handleTitleClick}>HS News</h1>
+      <h1 className="app-title" onClick={handleTitleClick}>
+        HS News
+      </h1>
 
       <div className="menu-container" ref={menuRef}>
         <button
