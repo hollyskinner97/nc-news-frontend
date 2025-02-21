@@ -98,11 +98,12 @@ footer {
     font-size: 0.7em;
   }
   .article-input-container {
-    font-size: 0.8em;
+    font-size: 0.9em;
     grid-template-columns: 110px auto;
+    gap: 0;
   }
   .topic-input-container {
-    font-size: 0.8em;
+    font-size: 0.9em;
     gap: 0;
   }
   .new-topic-form label {
