@@ -99,8 +99,9 @@ footer {
   }
   .article-input-container {
     font-size: 0.9em;
-    grid-template-columns: 80px auto;
+    grid-template-columns: 60px auto;
     gap: 0;
+    flex-direction: column;
   }
   .topic-input-container {
     font-size: 0.9em;
