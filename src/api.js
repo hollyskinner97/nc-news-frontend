@@ -73,6 +73,17 @@ export const postComment = (article_id, newComment) => {
     });
 };
 
+export const patchVotesOnComment = (comment_id, voteData) => {
+  return api
+    .patch(`/comments/${comment_id}`, voteData)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
 export const deleteComment = (comment_id) => {
   return api.delete(`/comments/${comment_id}`).catch((error) => {
     throw error;

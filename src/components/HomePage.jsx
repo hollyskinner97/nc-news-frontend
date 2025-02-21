@@ -106,14 +106,12 @@ function HomePage({ articles, setArticles }) {
               return (
                 <section className="article-card" key={article.article_id}>
                   <img src={article.article_img_url} alt={article.title} />
-                  <h2>
-                    <Link
-                      to={`/articles/${article.article_id}`}
-                      className="article-link"
-                    >
-                      {article.title}
-                    </Link>
-                  </h2>
+                  <Link
+                    to={`/articles/${article.article_id}`}
+                    className="article-link"
+                  >
+                    <h2>{article.title}</h2>
+                  </Link>
                   <p>Author: {article.author}</p>
                   <p>Topic: {article.topic}</p>
                   <p>Votes: {article.votes}</p>

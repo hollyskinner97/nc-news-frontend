@@ -78,6 +78,7 @@ footer {
 .menu-btn {
   max-height: 3rem;
   width: 70%;
+  text-align: center;
 }
 
 .navbar {
@@ -86,6 +87,7 @@ footer {
   top: 100%;
   width: auto;
   grid-template-columns: 1fr;
+  z-index: 1000;
 }
 
 .navbar button {
@@ -95,10 +97,16 @@ footer {
 /* HomePage component */
 .article-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(2, minmax(400px, 1fr));
   gap: 20px;
   grid-auto-rows: 1fr;
   box-sizing: border-box;
+}
+
+@media (max-width: 850px) {
+  .article-cards {
+    grid-template-columns: 1fr;
+  }
 }
 
 .articles-header-bar {
@@ -181,7 +189,7 @@ footer {
 }
 
 .article-card p {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   margin-top: 0;
 }
 
@@ -194,15 +202,10 @@ footer {
 .article-card-btns {
   display: flex;
   justify-content: center;
-  width: 70%;
+  width: 90%;
   margin-top: 10px;
   margin-bottom: 5px;
   gap: 10px;
-}
-
-.article-card button {
-  width: 50%;
-  padding: 4px;
 }
 
 .single-article-page .article-card {
@@ -214,25 +217,25 @@ footer {
   margin-bottom: 20px;
 }
 
-.article-link {
-  text-decoration: none;
-  color: inherit;
+.article-link h2:hover {
+  color: #f76f6c;
 }
 
 /* Voting buttons */
 .vote-btns {
-  width: 30%;
+  width: fit-content;
   display: flex;
   justify-content: center;
   gap: 10px;
   align-items: center;
+  padding: 5px;
 }
 
 .vote-button.voted {
   background-color: #888; /* Greyed out */
   color: white;
   border-color: #666;
-  cursor: default;
+  cursor: pointer;
   box-shadow: none;
 }
 
@@ -304,26 +307,42 @@ footer {
   text-align: left;
 }
 
-/* Buttons section (Like, Delete) */
-.comment-card .buttons {
+/* Buttons section (Voting, Delete) */
+.comment-card-btns {
   display: flex;
   flex-direction: column;
-  gap: 5px;
   justify-content: center;
-  align-items: flex-end;
+  align-items: stretch;
+  gap: 5px;
+  min-width: 150px;
+}
+
+.comment-vote-btns {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  gap: 5px;
+}
+
+.comment-vote-btn.voted {
+  background-color: #888; /* Greyed out */
+  color: white;
+  border-color: #666;
+  box-shadow: none;
+}
+
+.delete-btn {
+  background-color: #f2d2b3;
+  color: #f5353b;
 }
 
 .comment-card p {
   margin: 12px 0;
 }
 
-.comment-card button {
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
 .load-more-btn {
-  width: 25%;
+  width: fit-content;
   margin: 0 auto;
 }
 
@@ -495,6 +514,7 @@ footer {
   top: 10px;
   right: 10px;
   background-color: #f76f6c;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   color: white;
   padding: 5px 15px;
   border-radius: 12px;

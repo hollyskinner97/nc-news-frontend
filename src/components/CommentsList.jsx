@@ -3,16 +3,23 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import NewCommentForm from "./NewCommentForm";
 import LoadingPage from "./LoadingPage";
 import ErrorHandler from "./ErrorHandler";
-import { deleteComment, getCommentsByArticleId } from "../api";
+import {
+  deleteComment,
+  getCommentsByArticleId,
+  patchVotesOnComment,
+} from "../api";
 import { UserAccount } from "../contexts/UserAccount";
 import dayjs from "dayjs";
 import "../App.css";
+import CommentCard from "./CommentCard";
 
 function CommentsList() {
   const { username } = useContext(UserAccount);
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [votes, setVotes] = useState(0);
+  const [userVotes, setUserVotes] = useState({});
   const [deleting, setDeleting] = useState(false);
   const [page, setPage] = useState(1);
   const { article_id } = useParams();
@@ -32,6 +39,50 @@ function CommentsList() {
         setLoading(false);
       });
   }, [article_id, page]);
+
+  function handleVote(comment_id, inc) {
+    const currVote = userVotes[comment_id] || 0;
+    const newVote = currVote === inc ? 0 : inc;
+
+    // Optimistic rendering of the vote
+    setUserVotes((prevVotes) => ({
+      ...prevVotes,
+      [comment_id]: newVote,
+    }));
+
+    // Optimistically update the votes for the specific comment
+    setComments((prevComments) =>
+      prevComments.map((comment) =>
+        comment.comment_id === comment_id
+          ? {
+              ...comment,
+              votes: comment.votes + (newVote - currVote),
+            }
+          : comment
+      )
+    );
+
+    patchVotesOnComment(comment_id, { inc_votes: newVote })
+      .then(() => {})
+      .catch((err) => {
+        // If request fails, revert the optimistic update
+        setUserVotes((prevVotes) => ({
+          ...prevVotes,
+          [comment_id]: 0,
+        }));
+
+        setComments((prevComments) =>
+          prevComments.map((comment) =>
+            comment.comment_id === comment_id
+              ? { ...comment, votes: comment.votes - (newVote - currVote) }
+              : comment
+          )
+        );
+        alert(
+          "Something went wrong while updating your vote. Please try again."
+        );
+      });
+  }
 
   function handleDelete(comment_id) {
     if (deleting) return;
@@ -73,29 +124,15 @@ function CommentsList() {
       {comments.length > 0 ? (
         <>
           {comments.map((comment) => {
-            const formattedDate = dayjs(comment.created_at).format(
-              "MMM D, YYYY"
-            );
-
             return (
-              <section className="comment-card" key={comment.comment_id}>
-                <div className="content">
-                  <p>{formattedDate}</p>
-                  <p>
-                    <strong>{comment.author}</strong>: {comment.body}
-                  </p>
-                  <p>Votes: {comment.votes}</p>
-                </div>
-                <div className="buttons">
-                  <button>Up vote!</button>
-                  <button>Down vote!</button>
-                  {comment.author === username && (
-                    <button onClick={() => handleDelete(comment.comment_id)}>
-                      Delete
-                    </button>
-                  )}
-                </div>
-              </section>
+              <CommentCard
+                key={comment.comment_id}
+                comment={comment}
+                userVotes={userVotes}
+                handleVote={handleVote}
+                handleDelete={handleDelete}
+                username={username}
+              />
             );
           })}
           <button
