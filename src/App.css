@@ -33,7 +33,7 @@ footer {
     justify-content: center;
   }
   .menu-btn {
-    padding: 0.4em 2em;
+    padding: 1em 1.1em;
   }
   .logged-in-msg {
     font-size: 12px;
@@ -54,7 +54,7 @@ footer {
   }
   .article-cards .topics-cards .user-cards .header .comment-section {
     grid-template-columns: 1fr;
-    padding: 0.3rem;
+    padding: 0;
   }
   .articles-header-bar {
     flex-direction: column;
