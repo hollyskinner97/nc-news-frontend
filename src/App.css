@@ -27,10 +27,13 @@ footer {
     padding: 0.5rem;
   }
   h1 {
-    font-size: 3em;
+    font-size: 2em;
   }
   .menu-container {
     justify-content: center;
+  }
+  .logged-in-msg {
+    font-size: 0.7em;
   }
   .navbar {
     width: 100%;
@@ -41,6 +44,9 @@ footer {
   footer {
     margin-top: 30px;
     padding: 10px;
+  }
+  button {
+    padding: 0;
   }
   .article-cards .topics-cards .user-cards .header .comment-section {
     grid-template-columns: 1fr;
